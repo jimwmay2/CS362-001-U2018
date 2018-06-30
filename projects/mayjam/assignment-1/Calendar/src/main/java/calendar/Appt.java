@@ -1,24 +1,28 @@
 /*
-
  * Appt.java
  */
 
 package calendar;
 
-import java.util.Comparator;
+
+
+
+import org.w3c.dom.Element;
+
+
 
 
 /**
  *  This class represents a single appointment that might be stored in
- *  a timetable.  The appointment consists of startHour, startMinute,
- *   startDay, startMonth, startYear, title, and description
+ *  an xml file.  The appointment consists of startHour, startMinute,
+ *   startDay, startMonth, startYear, title, description, and emailAddress
  *   
  *   
  */
 /**
  * Stores the data of an appointment
  */
-public class Appt implements  Comparable<Appt>{
+public class Appt{
     
     /** Used for knowing whether or not an appointment is valid or not */
     private boolean valid;
@@ -43,6 +47,13 @@ public class Appt implements  Comparable<Appt>{
 
     /** The description of the appointment */
     private String description;
+   
+    
+    /** E-mail address associated with the appointment */
+    private String emailAddress;
+ 
+    /** Used to represent time isn't set */
+    private static final int NO_TIME = -1;
     
     /** Used for setting appointments to recur weekly */
     public static final int RECUR_BY_WEEKLY = 1;
@@ -70,6 +81,10 @@ public class Appt implements  Comparable<Appt>{
     /** How many recurrences (-1 for infinite, 0 by default) */
     private int recurNumber;
 
+    
+    /** Element location of the appointment in XML tree */
+    private Element xmlElement;
+
     // ----------------------------------------------------------
     /**
      * Constructs a new appointment that starts at a specific time on the 
@@ -84,80 +99,116 @@ public class Appt implements  Comparable<Appt>{
      * @param startYear The year the appointment starts on.
      * @param title The title or caption to give the appointment
      * @param description The appointment's details
+     * @param emailAddress An e-mail address associated with the appointment
+
      */
     public Appt(int startHour, int startMinute, 
-            int startDay, int startMonth, int startYear,String title, String description)
-    {
-        //Sets all instance variables 
-    	this.startHour = startHour;
-    	this.startMinute = startMinute; 
-    	this.startDay = startDay; 
-    	this.startMonth = startMonth;
-    	this.startYear = startYear; 
-        setTitle(title);
-        setDescription(description);
-   
-        //Set default recurring information
-        int[] recurringDays = new int[0];
-        setRecurrence(recurringDays, RECUR_BY_MONTHLY, 0, RECUR_NUMBER_NEVER);
+            int startDay, int startMonth, int startYear,
+             String title, String description, String emailAddress ) {
 
-        
-        isValid();
+    //Sets all instance variables except recurring information
+    setStartHour(startHour);
+    setStartMinute(startMinute);
+    setStartDay(startDay);
+    setStartYear(startYear);
+    setStartMonth(startMonth);
+    setTitle(title);
+    setDescription(description);
+    setEmailAddress(emailAddress);
+    
+    //Set default recurring information
+    int[] recurringDays = new int[0];
+    setRecurrence(recurringDays, RECUR_BY_MONTHLY, 0, RECUR_NUMBER_NEVER);
+    
+    //Leave XML Element null
+    setXmlElement(null);
+    
+    //Sets valid to true - this is now a valid appointment
+    this.valid = true;
+}
+    /**
+     * Constructs a new appointment that has no start time on the 
+     * date specified. The appointment is constructed with no recurrence 
+     * information by default. To set recurrence information, construct the
+     * appointment and then call setRecurrence(...) method. The XmlElement 
+     * will be set when the appointment is saved to disk.
+     * @param startDay The day of the month the appointment starts on
+     * @param startMonth The month of the year the appointment starts on. Use
+     *  the constants provided by Gregorian Calendar to set the month. 
+     * @param startYear The year the appointment starts on.
+     * @param title The title or caption to give the appointment
+     * @param description The appointment's details
+     * @param emailAddress An e-mail address associated with the appointment
+     */
+    public Appt(int startDay, int startMonth, int startYear,
+                String title, String description,
+                String emailAddress) {
+                    
+         //Just call the other constructor
+         this(NO_TIME, NO_TIME, startDay, startMonth, startYear, title, 
+            description, emailAddress);
+         this.valid=true;
     }
 
+	/**
+     * Sets the XML Element for this appointment
+     */
+    public void setXmlElement(Element xmlElement) {
+        this.xmlElement = xmlElement;
+    }
+    /** Gets xmlElement */
+    public Element getXmlElement() {
+        return xmlElement;
+    }
 
   
     /**
      * @sets valid to true if the appointment is valid
      */
-    private void isValid() {
-    	int NumDaysInMonth= CalendarUtil.NumDaysInMonth(startYear,startMonth-1);
-    				
-    	if(startHour<0 || startHour>23)
-    		this.valid=false;
-    	else
-        	if(startMinute<0 || startMinute>59)
-        		this.valid=false;
-        	else
-            	if(startDay<1 || startDay>NumDaysInMonth)
-            		this.valid=false;
-            	else
-                	if(startMonth<1 || startMonth>12)
-                		this.valid=false;
-                	else
-                		this.valid=true;
-    }
+	public void setValid() {
+
+		if (startMonth < 1 || startMonth > 12)
+			this.valid = false;
+		else if (startHour < 0 || startHour > 23)
+			this.valid = false;
+		else if (startMinute < 0 || startMinute > 59)
+			this.valid = false;
+		else if (startYear <= 0)
+			this.valid = false;
+		else {
+			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
+			if (startDay < 1 || startDay > NumDaysInMonth)
+				this.valid = false;
+			else
+				this.valid = true;
+		}
+	}
     
 
 
     /** Sets startHour */
     public void setStartHour(int startHour) {
     	this.startHour = startHour;
-    	 isValid();
     }
     
     /** Sets startHour */
     public void setStartMinute(int startMinute) {   	
         this.startMinute = startMinute;
-        isValid();
     }
 
     /** Sets startDay */
     public void setStartDay(int startDay) {
         this.startDay = startDay;
-        isValid();
     }
     
     /** Sets startMonth */
     public void setStartMonth(int startMonth) {
         this.startMonth = startMonth;
-        isValid();
     }
     
     /** Sets startYear */
     public void setStartYear(int startYear) {
         this.startYear = startYear;
-        isValid();
     }
 
     /** Sets title */
@@ -175,8 +226,13 @@ public class Appt implements  Comparable<Appt>{
         else
             this.description = description;
     }
- 
-    
+    /** Sets emailAddress */
+    private void setEmailAddress(String emailAddress) {
+        if (emailAddress == null)
+            this.emailAddress = "";
+        else
+            this.emailAddress = emailAddress;
+    }   
     /** Gets startHour */
     public int getStartHour() {
         return startHour;
@@ -211,10 +267,32 @@ public class Appt implements  Comparable<Appt>{
     public String getDescription() {
         return description;
     }
+    
+    /** Gets emailAddress */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
     /** Gets description */
     public boolean getValid() {
         return this.valid;
     }
+    /**
+     * Checks to see if an appointment occurs on a certain day, month, year.
+     * Takes recurrence into account.
+     * @return True if the appointment occurs on a certain day/month/year
+     */
+    public boolean isOn(int day, int month, int year) {
+        return (day == getStartDay() && month == getStartMonth() 
+                && year == getStartYear());
+    }
+    
+    /**
+     * Checks to see if a time is set for this appointment.
+     * @return True if this appointment has a time set. Otherwise false.
+     */
+    public boolean hasTimeSet() {
+        return (getStartHour() != NO_TIME);
+    } 
     /**
      * Sets the recurring information with the correct information
      */
@@ -245,6 +323,7 @@ public class Appt implements  Comparable<Appt>{
     private void setRecurNumber(int recurNumber) {
         this.recurNumber = recurNumber;
     }
+    
     /** Gets recurNumber */
     public int getRecurNumber() {
         return recurNumber;
@@ -294,28 +373,15 @@ public class Appt implements  Comparable<Appt>{
     }
     public String toString()
     {
+    	
 		if (!getValid()) {
-		    return null;
+		    System.err.println("\tThis appointment is not valid");
 		}
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
         return "\t"+ day +  this.represntationApp()  + " ," +  getTitle()+ ", "+  getDescription()+"\n";
     }
 
- //   The compareTo() method is hard to explain, in integer sorting, just remember
- //   startMinute+startHour+day+month+year is ascending order.
-	public int compareTo(Appt compareAppt) {
-		int startMinute=	this.startMinute - ((Appt) compareAppt).getStartMinute();
-		int startHour=	this.startHour - ((Appt) compareAppt).getStartHour();
-		int day = this.getStartDay()-((Appt) compareAppt).getStartDay();
-		int month = this.startMonth -((Appt) compareAppt).getStartMonth();
-		int year = this.startYear -((Appt) compareAppt).getStartYear();
 
-
-		//ascending order
-
-		return startMinute+startHour+day+month+year;
-
-	}
 
 
 }

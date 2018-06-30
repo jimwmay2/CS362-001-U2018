@@ -1,5 +1,6 @@
 package calendar;
 
+
 /*
  * CalDay.java
  *
@@ -8,6 +9,8 @@ package calendar;
 
 
 import java.util.*;
+
+
 
 
 
@@ -56,7 +59,7 @@ public class CalDay {
 		int year = cal.get(cal.YEAR);
 	
 		setDay(day);
-		setMonth(month);
+		setMonth(month+1);
 		setYear(year);
 	
 		setAppts(new LinkedList<Appt>());
@@ -170,7 +173,7 @@ public class CalDay {
 	     StringBuilder sb = new StringBuilder();
 	
 		if (isValid()) {
-			String todayDate = (getMonth()) + "/" + getDay() + "/" + getYear();
+			String todayDate = (getMonth()+1) + "/" + getDay() + "/" + getYear();
 			sb.append("\t --- " + todayDate + " --- \n");
 			sb.append(" --- -------- Appointments ------------ --- \n");
 			Iterator<Appt> itr = this.appts.iterator();
@@ -186,4 +189,73 @@ public class CalDay {
        	 return sb.toString();
 
 	}
+	
+	/**
+	*	Returns the data the data to be displayed.
+	*	the specified data.
+	**/
+    public String getFullInfomrationApp( Object calday) {
+                    
+        Iterator itr = ((CalDay)calday).iterator();
+        
+        String buffer;
+        buffer = Integer.toString(((CalDay)calday).getMonth())+ "-"; 
+        buffer += Integer.toString(((CalDay)calday).getDay())+ "-";  
+        buffer += Integer.toString(((CalDay)calday).getYear())+ " "; 
+
+        Appt appointment;
+        
+        int minute;
+        int hour;
+        String minString;
+		String meridianString;
+        
+        //go through the day and get the data to display
+        while(itr.hasNext()){
+        	
+        	buffer += "\n\t";
+        	
+        	appointment = (Appt)itr.next();
+			
+			if(appointment.hasTimeSet()){
+				
+				//figure AM/PM notation
+				hour = appointment.getStartHour();
+				if(hour>12){
+					meridianString = "PM";
+				}
+				else{
+					meridianString = "AM";	
+				}
+				
+				//convert from 24 to 12 hour time
+				if(hour == 0){
+					hour = 12;	
+				}
+				else{
+					hour = hour%12;
+				}
+				
+				//add preceding zero to minutes less than 10
+				minute = appointment.getStartMinute();
+				if(minute < 10){
+					minString = new String("0" + Integer.toString(minute));
+				}
+				else{
+					minString = Integer.toString(minute);
+				}
+				
+				//create the string containing a data summary
+				buffer += hour + ":" + minString + meridianString + " ";
+
+			}
+				buffer += appointment.getTitle()+ " ";
+				buffer += appointment.getDescription()+ " ";
+				
+				
+        }
+        
+        
+        return buffer;
+    }
 }
