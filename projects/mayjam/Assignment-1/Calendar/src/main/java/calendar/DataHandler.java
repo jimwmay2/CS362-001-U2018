@@ -204,7 +204,7 @@ public class DataHandler {
                 //Construct a new Appointment object with the data found
                 Appt appt = new Appt(
                             Integer.parseInt((String)fields.get("startHour")),
-                            Integer.parseInt((String)fields.get("startHour")),
+                            Integer.parseInt((String)fields.get("startMinute")),
                             Integer.parseInt((String)fields.get("startDay")),
                             Integer.parseInt((String)fields.get("startMonth")),
                             Integer.parseInt((String)fields.get("startYear")),
@@ -355,7 +355,7 @@ public class DataHandler {
                     nextDay.add(nextDay.DAY_OF_MONTH, 1);
                     int newDayOfWeek = nextDay.get(nextDay.DAY_OF_WEEK);
 
-                    for (int i = 0; i < recurDays.length; i++) {
+                    for (int i = 1; i < recurDays.length; i++) {
                         //If the calendar is set to a day of the week that the
                         //appt recurs on then return that day.
                         if (recurDays[i] == newDayOfWeek) {
