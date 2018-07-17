@@ -125,7 +125,7 @@ public class DataHandler {
      * @throws DateOutOfRangeException If any of the days constructed by the
      *  given values are invalid, or if date 2 is not after date 1.
      **/
-    public List<CalDay> getApptRange(GregorianCalendar firstDay, 
+    public LinkedList<CalDay> getApptRange(GregorianCalendar firstDay, 
             GregorianCalendar lastDay) throws DateOutOfRangeException {
 
             //Internal Diagnositic Messages turned on when true
