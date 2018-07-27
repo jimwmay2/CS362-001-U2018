@@ -4,13 +4,7 @@
 
 package calendar;
 
-
-
-
 import org.w3c.dom.Element;
-
-
-
 
 /**
  *  This class represents a single appointment that might be stored in
