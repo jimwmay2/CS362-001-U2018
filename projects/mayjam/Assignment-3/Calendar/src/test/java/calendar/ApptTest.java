@@ -18,10 +18,10 @@ public class ApptTest {
 		 
 	    	Calendar rightnow = Calendar.getInstance();
 			 int startHour=0;
-			 int startMinute=6;
-			 int startDay = rightnow.get(Calendar.DAY_OF_MONTH);
-			 int startMonth = rightnow.get(Calendar.MONTH)+1;
-			 int startYear = rightnow.get(Calendar.YEAR);
+			 int startMinute=0;
+			 int startDay = 28;
+			 int startMonth = 2;
+			 int startYear = 1;
 			 String title="Birthday Party";
 			 String description="This is my birthday party.";
 			 String emailAddress="my@email.com";
@@ -34,7 +34,8 @@ public class ApptTest {
 			          title,
 			         description,
 			         emailAddress);
-			 startHour=35;
+			 //startMonth=1;	 
+			 startHour=-1;
 			 title="Birthday Party 2";
 			 emailAddress="my@email2.com";
 			 Appt appt2 = new Appt(startHour,
@@ -46,7 +47,7 @@ public class ApptTest {
 			         description,
 			         emailAddress);
 			 startHour=13;
-			 startMinute = 82;
+			 startMinute = 60;
 			 title="Birthday Party 3";
 			 emailAddress="my@email3.com";
 			 Appt appt3 = new Appt(startHour,
@@ -59,7 +60,7 @@ public class ApptTest {
 			         emailAddress);
 			 startMonth=3;
 			 startMinute=6;
-			 startYear=-12;
+			 startYear=0;
 			 title=null;
 			 emailAddress="my@email4.com";
 			 Appt appt4 = new Appt(startHour,
@@ -110,35 +111,117 @@ public class ApptTest {
 			          title,
 			         description,
 			         emailAddress);
-			 
+			 startMonth=13;
+			 title="Birthday Party 9";
+			 emailAddress=null;
+			 Appt appt9 = new Appt(
+			          startDay ,
+			          startMonth ,
+			          startYear ,
+			          title,
+			         description,
+			         emailAddress);
+			 startHour=24;
+			 title="Birthday Party 2";
+			 emailAddress="my@email2.com";
+			 Appt appt10 = new Appt(startHour,
+			          startMinute ,
+			          startDay ,
+			          startMonth ,
+			          startYear ,
+			          title,
+			         description,
+			         emailAddress);
+			 startMinute = 60;
+			 title="Birthday Party 3";
+			 emailAddress="my@email3.com";
+			 Appt appt11 = new Appt(startHour,
+			          startMinute ,
+			          startDay ,
+			          startMonth ,
+			          startYear ,
+			          title,
+			         description,
+			         emailAddress);
+			 startMonth=12;
+			 startHour=23;
+			 startMinute = 59;
+			 title="Birthday Party 3";
+			 emailAddress="my@email3.com";
+			 Appt appt13 = new Appt(startHour,
+			          startMinute ,
+			          startDay ,
+			          startMonth ,
+			          startYear ,
+			          title,
+			         description,
+			         emailAddress);
+			 startMonth=1;
+			 startHour=0;
+			 startMinute = 0;
+			 title="Birthday Party 3";
+			 emailAddress="my@email3.com";
+			 Appt appt14 = new Appt(startHour,
+			          startMinute ,
+			          startDay ,
+			          startMonth ,
+			          startYear ,
+			          title,
+			         description,
+			         emailAddress);
 			 
 			 appt3.setValid();
 			 assertTrue(appt4.getValid());
 			 
 			 //check toString method
 			 appt.setValid();
+			 appt13.setValid();
+			 appt14.setValid();
+			 
+			 assertTrue(appt.getValid());
+			 assertTrue(appt13.getValid());
+			 assertTrue(appt14.getValid());
+			 //assertEquals(0, appt12.toString());
+			 
 			 appt2.setValid();
 			 appt4.setValid();
 			 appt5.setValid();
 			 appt6.setValid();
 			 appt7.setValid();
 			 appt8.setValid();
+			 appt9.setValid();
+			 appt10.setValid();
+			 appt11.setValid();
+			 
 			 assertEquals("\t2/31/2018 at -1:-1am ,, This is my birthday party.\n",appt5.toString());
 	// assertions
-		 assertTrue(appt.getValid());
+		 
+		 
+		 assertFalse(appt2.getValid());
+		 assertFalse(appt3.getValid());
+		 assertFalse(appt4.getValid());
+		 assertFalse(appt5.getValid());
+		 assertFalse(appt6.getValid());
+		 assertFalse(appt7.getValid());
+		 assertFalse(appt8.getValid());
+		 assertFalse(appt9.getValid());
+		 assertFalse(appt10.getValid());
+		 assertFalse(appt11.getValid());
+		 
+		 
 		 assertEquals(0, appt.getStartHour());
-		 assertEquals(6, appt.getStartMinute());
-		 assertEquals(27, appt.getStartDay());
-		 assertEquals(07, appt.getStartMonth());
-		 assertEquals(2018, appt.getStartYear());
+		 assertEquals(0, appt.getStartMinute());
+		 assertEquals(28, appt.getStartDay());
+		 assertEquals(02, appt.getStartMonth());
+		 assertEquals(1, appt.getStartYear());
 		 assertEquals("Birthday Party", appt.getTitle());
 		 assertEquals("This is my birthday party.", appt.getDescription()); 
 		 assertEquals("my@email.com", appt.getEmailAddress()); 
 		 
 		 assertFalse(appt.isOn(1, 1, 1));
-		 assertFalse(appt.isOn(rightnow.get(Calendar.DAY_OF_MONTH), 1, 1));
-		 assertFalse(appt.isOn(rightnow.get(Calendar.DAY_OF_MONTH), rightnow.get(Calendar.MONTH)+1, 1));
-		 assertTrue(appt.isOn(rightnow.get(Calendar.DAY_OF_MONTH), rightnow.get(Calendar.MONTH)+1, rightnow.get(Calendar.YEAR)));
+		 assertFalse(appt.isOn(28, 1, 1));
+		 assertFalse(appt.isOn(28, 2, 2));
+		 assertTrue(appt.isOn(28, 2, 1));
 		 
 		 int[] recurDays = {3,4,5};
 		 int recurBy = 2;

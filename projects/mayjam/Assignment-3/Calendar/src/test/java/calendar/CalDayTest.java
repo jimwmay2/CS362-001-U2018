@@ -17,7 +17,7 @@ public class CalDayTest {
 		//get todays date
     	Calendar rightnow = Calendar.getInstance();
 		 int startHour=0;
-		 int startMinute=6;
+		 int startMinute=9;
 		 int startDay = rightnow.get(Calendar.DAY_OF_MONTH);
 		 int startMonth = rightnow.get(Calendar.MONTH)+1;
 		 int startYear = rightnow.get(Calendar.YEAR);
@@ -33,6 +33,7 @@ public class CalDayTest {
 		          title,
 		         description,
 		         emailAddress);
+		 startMinute=10;
 		 startHour=12;
 		 title="Birthday Party 2";
 		 emailAddress="my@email2.com";
@@ -72,6 +73,9 @@ public class CalDayTest {
 		 CalDay calday1 = new CalDay(today);
 		 CalDay calday2 = new CalDay();
 		 
+		// LinkedList<Appt> appts = null;
+		 assertNull(calday2.iterator());
+		 assertNotNull(calday1.iterator());
 		 
 		 //calday2.getFullInfomrationApp(calday2);
 		 
@@ -80,15 +84,15 @@ public class CalDayTest {
 		 assertTrue(appt4.getValid());
 		 
 		 //check toString method
-		 assertEquals("\t --- 8/27/2018 --- \n" + 
+		 assertEquals("\t --- 8/28/2018 --- \n" + 
 		 		" --- -------- Appointments ------------ --- \n" + 
-		 		"\t7/27/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday1.toString());
+		 		"\t7/28/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday1.toString());
 		 
 
 		 CalDay calday3 = calday1;
-		 assertEquals("\t --- 8/27/2018 --- \n" + 
+		 assertEquals("\t --- 8/28/2018 --- \n" + 
 			 		" --- -------- Appointments ------------ --- \n" + 
-			 		"\t7/27/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday3.toString());
+			 		"\t7/28/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday3.toString());
 		 
 		 appt4.setValid();
 		 calday1.addAppt(appt);
@@ -107,8 +111,8 @@ public class CalDayTest {
 		assertEquals(rightnow.get(Calendar.YEAR),calday1.getYear());
 		
 		String fullday = rightnow.get(Calendar.MONTH)+1 + "-" + rightnow.get(Calendar.DAY_OF_MONTH) + "-" + rightnow.get(Calendar.YEAR) + " \n" +
- 		"\t12:06AM Birthday Party This is my birthday party. \n" +
-		"\t0:06AM Birthday Party 2 This is my birthday party. \n" +
+ 		"\t12:09AM Birthday Party This is my birthday party. \n" +
+		"\t0:10AM Birthday Party 2 This is my birthday party. \n" +
 		"\t1:12PM Birthday Party 3 This is my birthday party. ";
 		
 		

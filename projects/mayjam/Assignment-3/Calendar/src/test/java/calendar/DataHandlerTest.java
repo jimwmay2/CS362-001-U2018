@@ -104,11 +104,11 @@ public class DataHandlerTest{
 		 GregorianCalendar later = new GregorianCalendar(2018,3,10);
 		 
 		 LinkedList<CalDay> calDays = new LinkedList<CalDay>();
-		 calDays = dat.getApptRange(yesterday, nextWeek);
+		 calDays = (LinkedList<CalDay>) dat.getApptRange(yesterday, nextWeek);
 		 assertEquals(8,calDays.size());
-		 calDays = dat.getApptRange(yesterday, later);
+		 calDays = (LinkedList<CalDay>) dat.getApptRange(yesterday, later);
 		 assertEquals(60,calDays.size());
-		 calDays = dat.getApptRange(yesterday, today);
+		 calDays = (LinkedList<CalDay>) dat.getApptRange(yesterday, today);
 		 assertEquals(1,calDays.size());
 		 assertEquals("[\t --- 3/9/2018 --- \n" + 
 		 		" --- -------- Appointments ------------ --- \n" + 
