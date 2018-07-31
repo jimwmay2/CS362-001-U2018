@@ -84,15 +84,15 @@ public class CalDayTest {
 		 assertTrue(appt4.getValid());
 		 
 		 //check toString method
-		 assertEquals("\t --- 8/28/2018 --- \n" + 
+		 assertEquals("\t --- 8/30/2018 --- \n" + 
 		 		" --- -------- Appointments ------------ --- \n" + 
-		 		"\t7/28/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday1.toString());
+		 		"\t7/30/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday1.toString());
 		 
 
 		 CalDay calday3 = calday1;
-		 assertEquals("\t --- 8/28/2018 --- \n" + 
+		 assertEquals("\t --- 8/30/2018 --- \n" + 
 			 		" --- -------- Appointments ------------ --- \n" + 
-			 		"\t7/28/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday3.toString());
+			 		"\t7/30/2018 at 1:12pm ,Birthday Party 3, This is my birthday party.\n"+" \n" ,calday3.toString());
 		 
 		 appt4.setValid();
 		 calday1.addAppt(appt);
