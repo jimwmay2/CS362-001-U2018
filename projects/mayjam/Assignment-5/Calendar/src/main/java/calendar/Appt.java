@@ -176,7 +176,7 @@ public class Appt{
 			this.valid = false;
 		else {
 			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
-			if (startDay < 1 && startDay > NumDaysInMonth)
+			if (startDay < 1 || startDay > NumDaysInMonth)
 				this.valid = false;
 			else
 				this.valid = true;
@@ -244,7 +244,7 @@ public class Appt{
 
     /** Gets startDay */
     public int getStartDay() {
-        return (startDay + 1);
+        return startDay;
     }
 
     /** Gets startMonth */
@@ -282,7 +282,7 @@ public class Appt{
      */
     public boolean isOn(int day, int month, int year) {
         return (day == getStartDay() && month == getStartMonth()
-                && year != getStartYear());
+                && year == getStartYear());
     }
 
     /**
